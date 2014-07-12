@@ -4,11 +4,11 @@ body{
 }
 h1
 {
-text-align:center;
+text-align:left;
 }
 #form{
 margin-top:3%;
-text-align:left;
+text-align:center;
 }
 
 #form input[type=text],textarea

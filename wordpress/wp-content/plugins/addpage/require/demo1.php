@@ -6,8 +6,7 @@ function ok()
 
 $con=mysql_connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpassword']);
 mysql_select_db($_POST['dbname'],$con);
-$wpdb = $_POST['wpdb'];
-/*
+
 if(isset($_POST['s1']))
 {
 echo $POST['s1'];
@@ -24,35 +23,30 @@ $i++;
 }
 echo "</table>";
 }
-*/
 
-if(isset($_POST['s1']))
+
+/*if(isset($_GET['s1']))
 { 
-$qry="SELECT * FROM `".$wpdb."branches` WHERE `name`='".$_POST['s1']."'";
+echo "kbj";
+echo $wpdb->prefix."lkjh";
+$qry="SELECT * FROM `".$wpdb->prefix."branches` WHERE `name`='".$_POST['s1']."'";
 $re=mysql_query($qry);
-if(mysql_num_rows($re) == 0)
-{
-echo "Please select any course";
-}
-else
-{
 echo "<table width=100% border='1' style='background:none'>";
 $i=1;
 echo "<input type='hidden' name='row' value='".mysql_num_rows($re)."'>";
 while($data=mysql_fetch_array($re))
 {
 	$f='hello'.$i;
-echo "<tr><td><input type='checkbox' name='".$f."' id='".$f."' value='".$data['subbranch']."'><td>".$data['subbranch']."</td></tr>";
+echo "<tr><td><input type='checkbox' name='".$f."' value='".$data['subbranch']."'><td>".$data['subbranch']."</td></tr>";
 $i++;
 }
 echo "</table>";
-}
-}
+}*/
 if(isset($_GET['mode']))
 {
 if($_GET['mode']=="level")
 {
-$qry2="select distinct(branch) from `".$wpdb."selectedbranch` where college='".$_POST['s2']."' AND level='".$_POST['s3']."'";	
+$qry2="select distinct(branch) from `".$wpdb->prefix."selectedbranch` where college='".$_POST['s2']."' AND level='".$_POST['s3']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s4'>";
@@ -68,7 +62,7 @@ echo "</select>";
 elseif($_GET['mode']=="referbookau")
 {
 echo "<table>";
-$qry="select * from books where `".$wpdb."author`='".$_POST['s5']."'";
+$qry="select * from books where `".$wpdb->prefix."author`='".$_POST['s5']."'";
 $res=mysql_query($qry);
 $c=1;
 echo "<input type='hidden' name='arow' value='".mysql_num_rows($res)."'>";
@@ -82,7 +76,7 @@ echo "</table>";
 }
 elseif($_GET['mode']=="referbooks")
 {
-$qry2="select distinct(subject) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s4']."' AND branch='".$_POST['s6']."'";	
+$qry2="select distinct(subject) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s4']."' AND branch='".$_POST['s6']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s7'>";
@@ -95,7 +89,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="topic")
 {
-$qry2="select distinct(subject) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s4']."' AND branch='".$_POST['s6']."' AND semster='".$_POST['s7']."'";	
+$qry2="select distinct(subject) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s4']."' AND branch='".$_POST['s6']."' AND semster='".$_POST['s7']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s7'>";
@@ -109,7 +103,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="viewtopic")
 {
-$qry2="select distinct(subject) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s7']."' AND branch='".$_POST['s4']."' AND semster='".$_POST['s1']."'";	
+$qry2="select distinct(subject) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s7']."' AND branch='".$_POST['s4']."' AND semster='".$_POST['s1']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s8'>";
@@ -123,7 +117,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="syllabusupdate")
 {
-	$qry2="select distinct(batch) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND branch='".$_POST['s6']."' AND level='".$_POST['s4']."' AND semster='".$_POST['s11']."'";	
+	$qry2="select distinct(batch) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND branch='".$_POST['s6']."' AND level='".$_POST['s4']."' AND semster='".$_POST['s11']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s8'>";
@@ -137,7 +131,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="particaly")
 {
-				$qry1="select * from `".$wpdb."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."'";
+				$qry1="select * from `".$wpdb->prefix."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."'";
 				$res1=mysql_query($qry1);
 				echo "<table>";
 echo "<form action='?page=showp' method='post'>";
@@ -151,7 +145,7 @@ echo "<form action='?page=showp' method='post'>";
 }
 elseif($_GET['mode']=="preview")
 {
-$qry2="select distinct(batch) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s7']."' AND branch='".$_POST['s4']."' AND semster='".$_POST['s1']."'";	
+$qry2="select distinct(batch) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s7']."' AND branch='".$_POST['s4']."' AND semster='".$_POST['s1']."'";	
 $re1=mysql_query($qry2);
 
 echo "<select name='s8'>";
@@ -165,7 +159,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="sem")
 {
-$qry2="select distinct(semster) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND branch='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND place='theory'";
+$qry2="select distinct(semster) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND branch='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND place='theory'";
 $re1=mysql_query($qry2);
 echo "<select name='s9' id='semo'><option value=''>---</option>";
 while($dataa=mysql_fetch_array($re1))
@@ -176,7 +170,7 @@ echo "</select>";
 }
 elseif($_GET['mode']=="subject")
 {
-	$qry2="select distinct(subject) from `".$wpdb."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND branch='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND semster='".$_POST['s9']."' AND place='theory'";	
+	$qry2="select distinct(subject) from `".$wpdb->prefix."syllabi` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND branch='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND semster='".$_POST['s9']."' AND place='theory'";	
 $re1=mysql_query($qry2);
 echo "<select name='s10' id='sujj'><option value=''>---</option>";
 while($dataa=mysql_fetch_array($re1))
@@ -195,7 +189,7 @@ if(strlen($_POST['s8'])>1)
 		{
 			if(strlen($_POST['t1'])>1)
 			{
-				$qry1="select * from `".$wpdb."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."' AND pariticalname='".$_POST['t1']."'";
+				$qry1="select * from `".$wpdb->prefix."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."' AND pariticalname='".$_POST['t1']."'";
 				$res1=mysql_query($qry1);
 				if(mysql_num_rows($res1)==0)
 				{

@@ -6,7 +6,6 @@ function ok()
 
 $con=mysql_connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpassword']);
 mysql_select_db($_POST['dbname'],$con);
-$wpdb = $_POST['wpdb'];
 /*
 if(isset($_POST['s1']))
 {
@@ -28,26 +27,22 @@ echo "</table>";
 
 if(isset($_POST['s1']))
 { 
+echo "kbj";
+echo $wpdb = $_POST['wpdb'];
 $qry="SELECT * FROM `".$wpdb."branches` WHERE `name`='".$_POST['s1']."'";
 $re=mysql_query($qry);
-if(mysql_num_rows($re) == 0)
-{
-echo "Please select any course";
-}
-else
-{
 echo "<table width=100% border='1' style='background:none'>";
 $i=1;
 echo "<input type='hidden' name='row' value='".mysql_num_rows($re)."'>";
 while($data=mysql_fetch_array($re))
 {
 	$f='hello'.$i;
-echo "<tr><td><input type='checkbox' name='".$f."' id='".$f."' value='".$data['subbranch']."'><td>".$data['subbranch']."</td></tr>";
+echo "<tr><td><input type='checkbox' name='".$f."' value='".$data['subbranch']."'><td>".$data['subbranch']."</td></tr>";
 $i++;
 }
 echo "</table>";
 }
-}
+
 if(isset($_GET['mode']))
 {
 if($_GET['mode']=="level")
@@ -195,7 +190,7 @@ if(strlen($_POST['s8'])>1)
 		{
 			if(strlen($_POST['t1'])>1)
 			{
-				$qry1="select * from `".$wpdb."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."' AND pariticalname='".$_POST['t1']."'";
+				$qry1="select * from `".$wpdb->prefix."paritical` where college='".$_POST['s5']."' AND level='".$_POST['s6']."' AND course='".$_POST['s4']."' AND batch='".$_POST['s8']."' AND sem='".$_POST['s9']."' AND subject='".$_POST['s10']."' AND pariticalname='".$_POST['t1']."'";
 				$res1=mysql_query($qry1);
 				if(mysql_num_rows($res1)==0)
 				{

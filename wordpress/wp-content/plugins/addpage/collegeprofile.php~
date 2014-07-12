@@ -8,10 +8,10 @@
 */
 
 
-
 add_action('admin_enqueue_scripts','myscript'); //this function used for add the all script file in plugin (style,javascript)	
 function myscript()
 {
+//wp_enqueue_script('jquery',plugins_url('jquery.js',__FILE__));
 wp_enqueue_script('jquery.ui.tabs',plugins_url('jquery.ui.tabs.js',__FILE__));
 wp_enqueue_script('jquery.ui.spinner',plugins_url('jquery.ui.spinner.js',__FILE__));
 wp_enqueue_script('jquery.ui.sortable',plugins_url('jquery.ui.sortable.js',__FILE__));
@@ -53,11 +53,11 @@ function collegeprofilemenu()
 add_menu_page('CollegeProfile','college_profile','administrator','collegeprofile','collegeprofile','','top-level');
 //add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 add_submenu_page('collegeprofile','collegeprofilemenu','Add University','administrator','collegeprofilemenu','collegeprofile');
-add_submenu_page('collegeprofile', 'Add New User', 'Add User', 'editor', 'adduser', 'collegeprofile');
-add_submenu_page('collegeprofile','college','All Universities','administrator','college','collegeprofile');
+add_submenu_page('collegeprofile', 'Add New User', 'Add User', 'administrator', 'adduser', 'collegeprofile');
+add_submenu_page('collegeprofile','college','Colleges','administrator','college','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Update','administrator','update','collegeprofile');
-add_submenu_page('collegeprofile','collegeprofilemenu','Theme','editor','Theme','collegeprofile');
-add_submenu_page('collegeprofile','collegeprofilemenu','Insert Courses','editor','makesyllabus','collegeprofile');
+add_submenu_page('collegeprofile','collegeprofilemenu','Theme','subscriber','Theme','collegeprofile');
+add_submenu_page('collegeprofile','collegeprofilemenu','Create Syllabus','subscriber','makesyllabus','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Add Syllabus','subscriber','addsyllabus','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Add Author&Publisher','subscriber','aupu','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Refer Books','subscriber','referbooks','collegeprofile');
@@ -74,36 +74,34 @@ add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','updated'
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','viewstopics','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','actions','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','viewsbooks','collegeprofile');
-add_submenu_page('collegeprofile','collegeprofilemenu','','editor','addbranch','collegeprofile');
+add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','addbranch','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','advanceser','collegeprofile');
-add_submenu_page('collegeprofile','collegeprofilemenu','TEST','subscriber','test','collegeprofile');
 remove_menu_page('index.php');
 }
 require_once("function.php");
-require_once("require/rand_fun.php");
 require_once("db.php");
 
 function error($error)   //this function used for error display
 {
 ?>
-<!--<script>
+<script>
 	$(document).ready(function(){
 		$("#error").fadeOut(5000);
 	});
-	</script>-->
+	</script>
 <?php
-	echo "<div style='text:#FF0000' class='error' ><p><strong>ERROR : </strong>";
+	echo "<div style='text:#FF0000' class='error' id='error'><p><strong>";
 echo $error;
-echo "</p></div>";
+echo "</strong></p></div>";
 }
 function ok($error)   //this function used for show ok status
 {?>
-<!--<script>
+<script>
 	$(document).ready(function(){
 		$("#message").fadeOut(5000);
 		});
 	</script>
--->
+
 <?php	
 	echo "<div id='message' class='updated' ><p><strong>";
 echo $error;
@@ -116,97 +114,87 @@ global $wpdb;
 	echo"<div id='form'>";
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{
-/*		if(strlen($_POST['t1'])>5)
+		if(strlen($_POST['t1'])>5)
 		{
 			if(preg_match("/[0-9]{6}/",$_POST['t6']))
 			{
-				if(strlen($_POST['t8'])>2)
+				if(strlen($_POST['t7'])>2)
 				{
-					if($_POST['t2'])
+					if(strlen($_POST['t8'])>2)
 					{
-						if(preg_match("/[0-9]{2}/",$_POST['t10']))
+			if($_POST['t2'])
+			{
+				if(preg_match("/[0-9]{2}/",$_POST['t10']))
+				{
+				if(preg_match("/[0-9]{10}/",$_POST['t3']))
+				{
+					if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',$_POST['t4']))
+					{
+						if(strlen($_POST['t5'])>2)
 						{
-							if(preg_match("/[0-9]{10}/",$_POST['t3']))
+							if(strlen($_POST['t16'])>2)
 							{
-								if(preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',$_POST['t4']))
-								{
-									if(strlen($_POST['t5'])>2)
-									{*/
-										$qry="select * from `".$wpdb->prefix."college_data` where `userid`='".$current_user->ID."' and `name`='".$_POST['t1']."' ";
+								$qry="select * from college_data where userid='".$current_user->ID."' and name='".$_POST['t1']."'";
 $result=mysql_query($qry);
 $data=mysql_fetch_array($result);
-if(($data['userid']==$current_user->ID && $data['name']==$_POST['t1'] ) || ($data['email']==$_POST['t4']) )
+if($data['userid']==$current_user->ID && $data['name']==$_POST['t1'] || $data['email']==$_POST['t4'])
 {
-	error("YOU HAVE ALREADY REGISTERED");
+	error("YOU ALREADY REGISTER");
 }
-else
-{
-        echo $password = random();		//Generate Random Password
-	$timestamp = date('Y-m-d H:i:s');	//timestamp
-//	$qry1="INSERT INTO `".$wpdb->prefix."college_data` VALUES('0', '".$_POST['t1']."', '".$_POST['t2']."', '".$_POST['t10'].$_POST['t3']."', '".$_POST['t4']."', '".$_POST['t5']."', '".$current_user->ID."', '".$_POST['t8']."', '".$_POST['t6']."', '".$_POST['t11'].$_POST['t12']."', '".$_POST['long']."', '".$_POST['lati']."')";
-//	$result1=mysql_query($qry1) or die('ERROR : '.mysql_error());
-
-//USER IS EDITOR
-	$insert_users = mysql_query("INSERT INTO `".$wpdb->prefix."users` VALUES('0', '".$_POST['username']."', '".md5($password)."', '".$_POST['username']."', '".$_POST['t4']."', '".$_POST['url']."', '".$timestamp."', '', '', '".$_POST['first_name']." ".$_POST['last_name']."') ");
-	$select_qry = mysql_query("SELECT `ID` FROM `".$wpdb->prefix."users` WHERE `user_email`='".$_POST['t4']."' ");
-	$select_id = mysql_fetch_array($select_qry);
-	$user_id = $select_id['ID'];
-
-        $qry1="INSERT INTO `".$wpdb->prefix."college_data` VALUES('0', '".$_POST['t1']."', '".$_POST['t2']."', '".$_POST['t10'].$_POST['t3']."', '".$_POST['t4']."', '".$_POST['t5']."', '".$user_id."', '".$_POST['t8']."', '".$_POST['t6']."', '".$_POST['t11'].$_POST['t12']."', '".$_POST['long']."', '".$_POST['lati']."')";
-        $result1=mysql_query($qry1) or die('ERROR : '.mysql_error());
-
-/*	$array_qry = array(
-			array(`user_id`=>$user_id, `meta_key`=>'first_name', `meta_value`=>$_POST['first_name']), array(`user_id`=>$user_id, `meta_key`=>'last_name', `meta_value`=>$_POST['last_name']), array(`user_id`=>$user_id, `meta_key`=>'nickname', `meta_value`=>$_POST['username']), array(`user_id`=>$user_id, `meta_key`=>'description', `meta_value`=>''), array(`user_id`=>$user_id, `meta_key`=>'rich_editing', `meta_value`=>'true'), array(`user_id`=>$user_id, `meta_key`=>'comment_shortcuts', `meta_value`=>'false'), array(`user_id`=>$user_id, `meta_key`=>'admin_color', `meta_value`=>'fresh'), array(`user_id`=>$user_id, `meta_key`=>'use_ssl', `meta_value`=>'0'), array(`user_id`=>$user_id, `meta_key`=>'show_admin_bar_front', `meta_value`=>'true'), array(`user_id`=>$user_id, `meta_key`=>'wp_capabilities', `meta_value`=>'a:1:{s:6:"editor";b:1;}'), array(`user_id`=>$user_id, `meta_key`=>'wp_user_level', `meta_value`=>'7'), array(`user_id`=>$user_id, `meta_key`=>'dismissed_wp_pointers', `meta_value`=>'wp350_media,wp360_revisions,wp360_locks,wp390_widgets')
-			);
-	foreach($array_qry as $data)
-	{
-	$insert_usermeta = $wpdb->insert($wpdb->prefix.'usermeta', $data);
-	}*/
-        $insert_users_meta_capabilities = mysql_query("INSERT INTO `".$wpdb->prefix."usermeta` VALUES('0', '".$user_id."', 'wp_capabilities', 'a:1:{s:6:\"editor\";b:1;}' ) ");
-	$insert_users_meta_user_level = mysql_query("INSERT INTO `".$wpdb->prefix."usermeta` VALUES('0', '".$user_id."', 'wp_user_level', '7' ) ");
-
-	ok("OK YOU ARE REGISTER");
+else{
+$qry1="INSERT INTO `".$wpdb->prefix."college_data` VALUES('0', '".$_POST['t1']."', '".$_POST['t2']."', '".$_POST['t10'].$_POST['t3']."', '".$_POST['t4']."', '".$_POST['t5']."', '".$_POST['t16']."', '".$current_user->ID."', '".$_POST['t8']."', '".$_POST['t6']."', '".$_POST['t11'].$_POST['t12']."', '".$_POST['long']."', '".$_POST['lati']."')";
+$result1=mysql_query($qry1) or die('ERROR : '.mysql_error());
+ok("OK YOU ARE REGISTER");
 }
-
-								/*	}else
-									{
-										error("Enter the State Name");
-									}
-								}else
-								{
-									error("Enter the Vaild email");
-								}
 							}else
 							{
-								error("Enter the Valid Phone Number Format");
+								error("Enter the University Name");
 							}
 						}else
 						{
-						error("Enter the Valid Phone Number Format & code");
+							error("Enter the State Name");
 						}
 					}else
 					{
-						error("ENTER THE ADDRESS(minimum 15 char)");
+						error("Enter the Vaild email");
 					}
+
+
 				}else
 				{
-					error("ENTER THE CITY NAME");
+					error("Enter the Valid Phone Number Format");
 				}
-			}else
-			{
-				error("ENTER THE PIN CODE");
 			}
+			else{
+				error("Enter the Valid Phone Number Format & code");
+			}
+		}
+			else{
+				error("ENTER THE ADDRESS(minimum 15 char)");
+			}
+									}else
+		{
+			error("ENTER THE CITY NAME");
+		}
 		}else
 		{
-			error("ENTER THE COLLEGE NAME(minimum 6 char)");
-			
+			error("ENTER THE ROAD DETAILS");
 		}
+		}else
+		{
+			error("ENTER THE PIN CODE");
+		}
+			}
+			else
+			{
+				error("ENTER THE COLLEGE NAME(minimum 6 char)");
+			
+			}
 	}else
 	{
-		error("ENTER THE COLLEGE NAME");	*/
+//		error("ENTER THE COLLEGE NAME");
 	}
-
- $qry3="select * from `".$wpdb->prefix."college_data` where `userid`='".$current_user->ID."'";
+ $qry3="select * from college_data where userid='".$current_user->ID."'";
 	$res3=mysql_query($qry3);
 //$data3=mysql_fetch_array($res3);
 
@@ -220,7 +208,7 @@ if($_GET['page'])
 		collegeupdate($_POST['t1'],$_POST['t2'],$_POST['t3'],$_POST['t4'],$_POST['t5'],$_POST['t16'],$_POST['t17'],$_POST['t8'],$_POST['t9'],$_POST['id'],$current_user->ID);
 	}
 	
-$qry3="select * from `".$wpdb->prefix."college_data` where userid='".$current_user->ID."' AND id='".$_POST['id']."'";
+$qry3="select * from college_data where userid='".$current_user->ID."' AND id='".$_POST['id']."'";
 	$res3=mysql_query($qry3);
 	if(mysql_num_rows($res3)==0)
 	{
@@ -230,7 +218,7 @@ while ($data3=mysql_fetch_array($res3))
 {
 echo "<form action='admin.php?page=update' method='post'>";
 echo "<table align='center' class='widefat'>";
-echo "<tr><td><b>University Name</b></td><td width=100></td><td><input type='text' name='t1' value='".$data3['name']."' title='name'></td></tr>";
+echo "<tr><td>Name</td><td width=100></td><td><input type='text' name='t1' value='".$data3['name']."' title='name'></td></tr>";	
 echo "<tr><td>City</td><td width=100></td><td><input type='text' name='t17' value='".$data3['city']."'></td></tr>";	
 echo "<tr><td>Pin code</td><td width=100></td><td><input type='text' name='t8' value='".$data3['pin']."' maxlength=6></td></tr>";	
 echo "<tr><td>Road</td><td width=100></td><td><input type='text' name='t9' value='".$data3['road']."'></td></tr>";	
@@ -240,7 +228,7 @@ echo "<tr><td>Email</td><td width=100></td><td><input type='text' name='t4' valu
 echo "<tr><td>State</td><td width=100></td><td><input type='text' name='t5' value='".$data3['state']."'></td></tr>";
 echo "<tr><td>University</td><td width=100></td><td><input type='text' name='t16' value='".$data3['uni']."'></td></tr>";
 echo "<input type='hidden' value='".$data3['id']."' name='id'>";
-echo "<tr><td><input type='submit' name='updated' value='Update University' class='button-primary' /></td></tr></table></form>";
+echo "<tr><td><input type='submit' name='updated' value='UPDATE'></td></tr></table></form>";	
 }
 }
 break;
@@ -254,16 +242,16 @@ adduser();
 break;
 
 case "college":
-	$qry3="select * from `".$wpdb->prefix."college_data`";
+	$qry3="select * from college_data where userid='".$current_user->ID."'";
 	$res3=mysql_query($qry3);
 	echo "<table border=1 class='widefat'>";
 	echo "<tr><th>Name</th><th>City</th><th>Pin Code</th><th>Road</th><th>Phone</th><th>email</th><th>State</th><th>University</th><th>Action</th></tr>";
 while ($data3=mysql_fetch_array($res3))
 {
 echo "<form action='admin.php?page=update' method='post'>";
-echo "<tr><td>".$data3['name']."</td><td>".$data3['city']."</td><td>".$data3['pin']."</td><td>".$data3['road']."</td><td>".$data3['phone']."</td><td>".$data3['email']."</td><td>".$data3['state']."</td><td>".$data3['uni']."</td><input type='hidden'  value='".$data3['id']."' name='id'><td><input type='submit' name='update' value='Update' class='button-primary'></td></tr></form>";	
+echo "<tr><td>".$data3['name']."</td><td>".$data3['city']."</td><td>".$data3['pin']."</td><td>".$data3['road']."</td><td>".$data3['phone']."</td><td>".$data3['email']."</td><td>".$data3['state']."</td><td>".$data3['uni']."</td><input type='hidden'  value='".$data3['id']."' name='id'><td><input type='submit' name='update' value='UPDATE'></td></tr></form>";	
 }
-echo "</table>";
+echo "</table>";	
 break;
 
 case "Theme":
@@ -346,7 +334,7 @@ case "advanceser":
 advanceser($current_user->ID,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST);
 break;
 
-case "collegeprofilemenu": ?>
+case "collegeprofilemenu": echo $wpdb->prefix; ?>
 <script>
  $(document).ready(function(){
 	 $(document).tooltip();
@@ -354,67 +342,25 @@ case "collegeprofilemenu": ?>
 </script>
 <form action="admin.php?page=collegeprofilemenu" method="post">
 <h1>Add University</h1>
-		<table align="center" border="0" class="form-table">
-				<tr><td><b>University Name*</b></td><td width=6%></td><td width=30%><input type="text" name="t1" placeholder="Enter University Name" required></td><td width=30%></td></tr>
-                                <tr><td><b>Username*</b></td><td width=6%></td><td width=30%><input type="text" name="username" placeholder="Login Username" required></td><td width=30%></td></tr>
-                                <tr><td><b>First Name</b></td><td width=6%></td><td width=30%><input type="text" name="first_name" placeholder="First Name of University Admin" /></td><td width=30%></td></tr>
-                                <tr><td><b>Last Name</b></td><td width=6%></td><td width=30%><input type="text" name="last_name" placeholder="Last Name of University Admin" /></td><td width=30%></td></tr>
+		<table align="center" border="1">
+			    <tr>
+				<td><b>Enter University Name</b></td><td width=6%></td><td width=30%><input type="text" name="t1" placeholder="University Name" required></td><td width=30%></td></tr>
 				<tr><td colspan=4 align='center'><h2><u>Address</u></h2></td></tr>
-				<tr><td><b>City*</b></td><td width=6%></td><td><input type="text" name="t8" placeholder="Enter City" required /></td><td width=30%></td></tr>
-				<tr><td><b>Pin Code*</b></td><td width=6%></td><td width=30%><input type="text" class="pin" name="t6" placeholder="Pin code" required /></td><td width=30%><span class="change" style="color:#FF0000;display:none;">Please Enter 6 digit PIN Code</span></td></tr>
-				<tr><td><b>State*</b></td><td width=6%></td><td width=30%><input type="text" name="t5" placeholder="State" required /></td><td width=30%></td></tr>
-				<tr><td valign=top><b>Enter full Address*</b></td><td width=6%></td><td width=30%><textarea rows="10" cols="40" name="t2" required></textarea></td><td width=30%></td></tr>
-				<tr><td><b>Longitute</b></td><td width=6%></td><td width=30%><input type="text" name="long" placeholder="Longitute" /></td><td width=30%></td></tr>
-		        	<tr><td><b>Latitube</b></td><td width=6%></td><td width=30%><input type="text" name="lati" placeholder="Latitube" /></td><td width=30%></td></tr>
-				<tr><td><b>Enter Mobile*</b></td><td width=6%></td><td width=30%><input type="text" name="t10" placeholder="+91" required style="width:40px" maxlength="3"><input type="text" name="t3" placeholder="Mobile number" required style="width:200px"></td><td width=30%></td></tr>
-				<tr><td><b>Enter Phone Number*</b></td><td width=6%></td><td width=30%><input type="text" name="t11" placeholder="Code" required style="width:100px" ><input type="text" name="t12" placeholder="STD" required style="width:100px"></td><td width=30%></td></tr>
-				<tr><td><b>E-mail*</b></td><td width=6%></td><td width=30%><input type="text" name="t4" placeholder="Email Id" required></td><td width=30%></td></tr>
-                                <tr><td><b>Website</b></td><td width=6%></td><td width=30%><input type="text" name="url" placeholder="Enter URL" /></td><td width=30%></td></tr>
-				<tr><td><input type="submit" class="button button-primary button-large" name="add" value="Add University"></td></tr>
-		</table>
+				<tr><td><b>Pin Code</b></td><td width=6%></td><td width=30%><input type="text" class="pin" name="t6" placeholder="Pin code" required title="Enter The Pin Code"></td><td width=30%><span class="change" style="color:#FF0000;display:none;">Please Enter 6 digit PIN Code</span></td></tr>
+				<tr><td><b>City</b></td><td width=6%></td><td><input type="text" name="t8" placeholder="City" required title="About City"></td><td width=30%></td></tr>
+				<tr><td><b>Longitute</b></td><td width=6%></td><td width=30%><input title="Enter Longitude" type="text" name="long" placeholder="Longitute" required></td><td width=30%></td></tr>
+		        	<tr><td><b>Latitube</b></td><td width=6%></td><td width=30%><input title="Enter the Latitube" type="text" name="lati" placeholder="Latitube" required></td><td width=30%></td></tr>
+				<tr><td><b>Enter State</b></td><td width=6%></td><td width=30%><input title="Enter the state" type="text" name="t5" placeholder="State" required></td><td width=30%></td></tr>
+				<tr><td valign=top><b>Enter full Address</b></td><td width=6%></td><td width=30%><textarea rows="10" cols="40" name="t2" required></textarea></td><td width=30%></td></tr>
+				<tr><td><b>Enter Mobile</b></td><td width=6%></td><td width=30%><input title="Enter the mobile number" type="text" name="t10" placeholder="+91" required style="width:40px" maxlength="3"><input type="text" name="t3" placeholder="Mobile number" required style="width:200px"></td><td width=30%></td></tr>
+				<tr><td><b>Enter Phone Number</b></td><td width=6%></td><td width=30%><input title="Enter the phone number" type="text" name="t11" placeholder="Code" required style="width:100px" ><input type="text" name="t12" placeholder="STD" required style="width:100px"></td><td width=30%></td></tr>
+				<tr><td><b>Enter Email</b></td><td width=6%></td><td width=30%><input title="Enter the email id" type="text" name="t4" placeholder="Email Id" required></td><td width=30%></td></tr>
+				<tr><td><b>Enter University Name</b></td><td width=6%></td><td width=30%><input title="Enter university name" type="text" name="t16" placeholder="Enter University Name" required></td><td width=30%></td></tr>
+				<tr><td><input type="submit" name="add" value="Add College"></td></tr>
+			</table>
 </form>
 <?php
 break;
-
-case "test":
-?>
-<script>
-//alert("ALERT");
-$(document).ready(function(){
-alert("DDDDDDDDDDDDDFGGGGGGGG");
-});
-</script>
-<?php
-echo "test";
-
-$qry1 = mysql_query("SELECT wp_college_data.id, wp_college_data.userid, wp_college_data.name, wp_selectedbranch.id, wp_selectedbranch.course, wp_branches.name, wp_branches.subbranch FROM wp_branches, wp_college_data, wp_selectedbranch, wp_users WHERE wp_selectedbranch.userid='".$current_user->ID."' AND wp_selectedbranch.college=wp_college_data.id AND wp_selectedbranch.branch=wp_branches.id AND wp_college_data.userid=wp_users.id   ") OR mysql_error('ERROR : '. die());
-
-/*echo "SELECT wp_college_data.id, wp_college_data.userid, wp_college_data.name, wp_selectedbranch.id, wp_selectedbranch.course, wp_branches.name, wp_branches.subbranch
-
-FROM wp_branches, wp_college_data, wp_selectedbranch
-
-WHERE wp_selectedbranch.userid = '2'
-
-AND wp_selectedbranch.college = 'wp_college_data.id'
-
-AND wp_selectedbranch.branch = 'wp_branches.id'
-
-LIMIT 0 , 30";*/
-
-$qry = mysql_fetch_array($qry1);
-echo $a = mysql_num_rows($qry1);
-print_r($qry);
-echo "wp_college_data->id : ".$qry['id'];
-echo "<br/>wp_college_data->userid : ".$qry['userid'];
-echo "<br/>wp_college_data->name : ".$qry['name'];
-echo "<br/>wp_selectedbranch->id : ".$qry['id'];
-echo "<br/>wp_selectedbranch->course : ".$qry['course'];
-echo "<br/>wp_branches->Name : ".$qry['name'];
-echo "<br/>wp_branches->SubBranch : ".$qry['subbranch'];
-//echo "<br/>";
-
-break;
-
 	}
 }else
 {
@@ -429,8 +375,6 @@ echo "<tr><td>University</td><td width=100></td><td>".$data3['uni']."</td></tr>"
 echo "<tr><td><input type='submit' name='update' value='UPDATE'></td></tr></table>"; 
 
 }
-
-
 	?>
 		
 	</div>

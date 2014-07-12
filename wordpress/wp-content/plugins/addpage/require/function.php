@@ -1,8 +1,3 @@
-<script>
-$(document).ready(function(){
-alert("GGdddddddddGGGGGGGGG");
-});
-</script>
 <?php
 global $wpdb;
 function about() //this function used for admin side .this plugin show all instruction to admin.
@@ -38,8 +33,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <tr><th>Password*</th><td><input required type="password" name="password" autocomplete="off" /></td></tr>
 <tr><th>Repeat Password*</th><td><input required type="password" name="repeat_password"  autocomplete="off" /></td></tr>
 <tr><th>Send Password?</th><td><input type="checkbox" name="website" > &nbsp;&nbsp;&nbsp;Send this password to the new user by email.</td></tr>
-<tr><th>Department</th><td><select><option></option></select></td></tr>
-<tr><td></td><td><input type="submit" name="submit" class="button button-primary button-large" value="Add New User" ></td></tr>
+
+<tr><th></th><td><input type="submit" name="submit" class="button button-primary button-large" value="Add New User" ></td></tr>
 </table>
 
 </form>
@@ -129,7 +124,7 @@ function theme($user) //this function is used for theme dispaly and store the al
 <?php
 }
 }
-/*
+
 function make_syllabus($g,$b,$c,$d,$e) //this function gave the help to make the syllabus and store the all syllabus related data in database.
 { global $wpdb;
 	?>
@@ -144,14 +139,14 @@ $(document).tooltip();
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
 				var wpdb = "<?php echo $wpdb->prefix; ?>"
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val(),wpdb:wpdb},function(data){$("#branch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val(),wpdb:wpdb},function(data){$("#branch").html(data)});
 		})
 		$("#course").blur(function(){
 		var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val()},function(data){$("#branch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val()},function(data){$("#branch").html(data)});
 		});
 		$("#op").click(function(){
 			window.open('<?php echo home_url();?>/wp-admin/admin.php?page=addbranch','Continue_to_Application',"width=800,height=400");
@@ -161,7 +156,7 @@ $(document).tooltip();
 <form action="admin.php?page=makesyllabus" method="post">
 <table width="80%">
 <?php
-//echo home_url()."/wp-content/plugins/addpage/demo1.php<br/>";
+echo home_url()."/wp-content/plugins/addpage/require/demo1.php<br/>";
 echo $qry="select distinct(`name`) from `".$wpdb->prefix."college_data` where  `userid`='".$g."'";
 $re=mysql_query($qry);
 echo "<tr><td>College</td><td><select name='s2' id='cou'>";
@@ -261,10 +256,10 @@ echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><
 		echo "</table>";
 ?>
 			</form>
-<?php 
+<?php
 }
-*/
-function make_syllabus($g,$b,$c,$d,$e) //this function gave the help to make the syllabus and store the all syllabus related data in database.
+
+/*function make_syllabus($g,$b,$c,$d,$e) //this function gave the help to make the syllabus and store the all syllabus related data in database.
 {
 global $wpdb;
 	?>
@@ -273,29 +268,26 @@ global $wpdb;
 	$(document).ready(function(){
 $(document).tooltip();
 			$("#course").click(function(){
+
 		var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-				var wpdb = "<?php echo $wpdb->prefix; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val(),wpdb:wpdb},function(data){$("#branch").html(data)});
-		});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val()},function(data){$("#branch").html(data)});
+		})
 		$("#course").blur(function(){
 		var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-				var wpdb = "<?php echo $wpdb->prefix; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val(),wpdb:wpdb},function(data){$("#branch").html(data)});
-		});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s1:$("#course").val()},function(data){$("#branch").html(data)});
+		})
 		$("#op").click(function(){
 			window.open('<?php echo home_url();?>/wp-admin/admin.php?page=addbranch','Continue_to_Application',"width=800,height=400");
 			});
 		});
 	</script>
-<?php 
-//echo $g;
-$count_insert = 0;
+<?php
 $qry="SELECT DISTINCT(`name`) FROM `".$wpdb->prefix."college_data` WHERE  `userid`='".$g."'";
 $re=mysql_query($qry);
 $data = mysql_fetch_array($re);
@@ -305,33 +297,33 @@ echo "<h1>".$data['name']."</h1>";
 <form action="admin.php?page=makesyllabus" method="post">
 <table>
 <?php
-/*$qry="SELECT DISTINCT(`name`) FROM `".$wpdb->prefix."college_data` WHERE  `userid`='".$g."'";
+$qry="SELECT DISTINCT(`name`) FROM `".$wpdb->prefix."college_data` WHERE  `userid`='".$g."'";
 $re=mysql_query($qry);
-$data = $mysql_fetch_array($re);*/
+//$data = $mysql_fetch_array($re);
 echo "<input type='hidden' name='s2' value='".$data['name']."'>";
-/*echo "<tr><td>College</td><td><select required name='s2' id='cou'><option value=''></option>";
+echo "<tr><td>College</td><td><select required name='s2' id='cou'><option value=''></option>";
 while($data=mysql_fetch_array($re))
 {
 	echo "<option>".$data['name']."</option>";
 }
 echo "</td></tr>";
-*/
- $qry="SELECT DISTINCT(`name`) FROM `".$wpdb->prefix."branches`";
+
+echo $qry="SELECT DISTINCT(`name`) FROM `".$wpdb->prefix."branches`";
 $re=mysql_query($qry);
-echo "<tr><td>Course</td><td><select name='s1' id='course' title='Course details'><option value=''></option>";
+echo "<tr><td>Course</td><td><select required name='s1' id='course' title='Course details'><option value=''></option>";
 while($data=mysql_fetch_array($re))
 {
 	echo "<option>".$data['name']."</option>";
 }
-echo "</td></tr>";
-echo "<tr><td>Course Level</td><td><table><tr><td><input type='radio' name='r1' value='B.Tech' />B.Tech</td><td><input type='radio' name='r1' value='M.Tech'>M.Tech</td><td><input type='radio' name='r1' value='MCA'>MCA</td><td><input type='radio' name='r1' value='BCA'>BCA</td><td><input type='radio' name='r1' value='Diploma'>Diploma</td></tr>";
-echo "</table></td></tr></table><br/>";
+echo "</td></tr></table>";
+echo "<table><tr><td>Course Level</td><td>B.Tech<input type='radio' required name='r1' value='B.Tech' title='ok'></td><td>M.Tech<input type='radio' required name='r1' value='M.Tech'></td><td>MCA<input type='radio' required name='r1' value='MCA'></td><td>BCA<input type='radio' required name='r1' value='BCA'></td><td>Diploma<input type='radio' required name='r1' value='Diploma'></td></tr>";
+echo "</table><br/>";
 ?>
 <div id="branch">Branch</div>
 <div id="branch2">
-<table>
-<tr align='center' height='29'><td ><input type='submit' value="ADD >>" name="add1" id="ad" class="button-primary"></td></tr>
-<tr align='center'><td><input type='submit' value="<< REMOVE" name="remove" class="button-primary"></td></tr>
+<table border=1>
+<tr align='center' height='29'><td ><input type='submit' value="ADD>>" name="add1" class="button-primary"></td></tr>
+<tr align='center'><td><input type='submit' value="<<REMOVE" name="remove"></td></tr>
 </table>
 </div>
 <div id="branch1">Branch
@@ -340,7 +332,6 @@ $qry="SELECT * FROM `".$wpdb->prefix."branches` WHERE `name`='".$_POST['s1']."'"
 $re=mysql_query($qry);
 $row=mysql_num_rows($re);
 $j=1;
-
 if(isset($_POST['add1']))
 {
 	if(strlen($_POST['r1'])>2)
@@ -349,60 +340,45 @@ if(isset($_POST['add1']))
 	{
 	if(isset($_POST['hello'.$i]))
 	{
-		$qry="SELECT `".$wpdb->prefix."selectedbranch`.`level`, `".$wpdb->prefix."selectedbranch`.`userid`, `".$wpdb->prefix."branches`.`subbranch`  FROM `".$wpdb->prefix."selectedbranch`, `".$wpdb->prefix."branches` WHERE `".$wpdb->prefix."selectedbranch`.`userid`='".$g."' AND `".$wpdb->prefix."selectedbranch`.`level`='".$_POST['r1']."' AND `".$wpdb->prefix."selectedbranch`.`branch`=`".$wpdb->prefix."branches`.`id`  AND `".$wpdb->prefix."branches`.`subbranch`='".$_POST['hello'.$i]."'  ";
+				$qry="SELECT * FROM `".$wpdb->prefix."selectedbranch` WHERE `userid`='".$g."' AND `college`='".$_POST['s2']."' AND `level`='".$_POST['r1']."'  AND `branch`='".$_POST['hello'.$i]."'";
 $result=mysql_query($qry);
 		if(mysql_num_rows($result)!=0)
 		{
-?>
-			<script>
-alert("Already Exist");
-		/*	$(document).ready(function() {
-alert("n");
-			$(#ad).click(function(){
-				alert('Already Exists');
-			});
-			});*/
-			</script>
-<?php
+
 		}else
 		{
-		$qry_id = mysql_query("SELECT `id` FROM `".$wpdb->prefix."branches` WHERE `name`='".$_POST['s1']."' AND `subbranch`='".$_POST['hello'.$i]."' ");
-		$select_id = mysql_fetch_array($qry_id);
-		$branch_id = $select_id['id'];
-		$qry2="INSERT INTO `".$wpdb->prefix."selectedbranch` VALUES('".$g."', '', '".$_POST['r1']."', '".$select_id['id']."', '0')";
+		$qry2="INSERT INTO `".$wpdb->prefix."selectedbranch` VALUES('".$g."','".$_POST['s2']."','".$_POST['s1']."','".$_POST['r1']."','0','".$_POST['hello'.$i]."','0')";
 		$resu=mysql_query($qry2);
-		$qry_count = mysql_affected_rows();
-		echo $count_insert;
-		echo $count_insert += $qry_count;
-		} 
+	} 
 	}
 }
 }
 else{
 //	error("Select The Course level");
-//$errors->add("Error","There some error");
+$errors->add("Error","There some error");
 }
 }
 if(isset($_POST['remove']))
 {
+
 for($k=1;$k<=$row;$k++)
 {
 	if(isset($_POST['delete'.$k]))
 	{
-		echo $qury="DELETE FROM `".$wpdb->prefix."selectedbranch` WHERE `id`='".$_POST['delete'.$k]."'";
-		$result=mysql_query($qury) or die('DELETE ERROR : '.mysql_error()); 
+		$qury="delete from `".$wpdb->prefix."selectedbranch` where id='".$_POST['delete'.$k]."'";
+		$result=mysql_query($qury); 
 	}
 }
 
 }
 $f="delete";
 $l=1;
-	 	$qry3="SELECT `".$wpdb->prefix."selectedbranch`.`id`, `".$wpdb->prefix."branches`.`subbranch` FROM `".$wpdb->prefix."selectedbranch`, `".$wpdb->prefix."branches` WHERE `".$wpdb->prefix."selectedbranch`.`userid`='".$g."' AND `".$wpdb->prefix."selectedbranch`.`branch`=`".$wpdb->prefix."branches`.`id` ORDER BY `".$wpdb->prefix."selectedbranch`.`id` DESC LIMIT ".$count_insert." ";
-		$resu1=mysql_query($qry3) or mysql_error('ERROR : '.die());
+		$qry3="select * from `".$wpdb->prefix."selectedbranch` where userid='".$g."' AND college='".$_POST['s2']."'";
+		$resu1=mysql_query($qry3);
 		echo "<table width=100% style='background:none'>";
 		while($data2=mysql_fetch_assoc($resu1))
 		{
-echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['subbranch']."</td></tr>";
+echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['branch']."</td></tr>";
 		$l++;
 		}
 		echo "</table>";
@@ -418,19 +394,19 @@ echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><
 <h1>YOUR ALL BRANCHES</h1>
 <?php	
 
-	$qry3="SELECT * FROM `".$wpdb->prefix."selectedbranch` WHERE `userid`='".$g."'  ORDER BY `".$wpdb->prefix."selectedbranch`.`id` DESC  ";
-		$resu1=mysql_query($qry3) or mysql_error('ERROR : '.die());
+	$qry3="select * from `".$wpdb->prefix."selectedbranch` where userid='".$g."'";
+		$resu1=mysql_query($qry3);
 		echo "<table width=100%  class='widefat'>";
 		while($data2=mysql_fetch_assoc($resu1))
 		{
-echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['branch']."</td><td>".$data2['id']."</td></tr>";
+echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['branch']."</td><td>".$data2['college']."</td></tr>";
 		$l++;
 		}
 		echo "</table>";
 ?>
 			</form>
 <?php
-}
+}*/
 function referbooks($g,$b,$c,$d,$e) //this function is store all information about the books.
 {
 	$qryt="select * from `".$wpdb->prefix."syllabi` where userid='".$g."'";
@@ -497,14 +473,14 @@ $(document).tooltip();
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
 		})
 		$("#level").blur(function(){
 				var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
 		})
 		});
 	</script>
@@ -600,7 +576,7 @@ var dbname="<?php echo $b; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
 				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=topic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s7:$("#sems").val()},function(data){$("#subj").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=topic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s7:$("#sems").val()},function(data){$("#subj").html(data)});
 		})
 		$("#level").blur(function(){
 var dbname="<?php echo $b; ?>";
@@ -608,7 +584,7 @@ var dbname="<?php echo $b; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
 				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=topic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s7:$("#sems").val()},function(data){$("#subj").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=topic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s7:$("#sems").val()},function(data){$("#subj").html(data)});
 		})
 		var i=1;
 
@@ -737,11 +713,11 @@ function preview($g,$b,$c,$d,$e) //this functio show the syllabus in html fome.
 
 			$("#level").click(function(){
 
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=preview',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#batch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=preview',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#batch").html(data)});
 		})
 		$("#level").blur(function(){
 					
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=preview',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#batch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=preview',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#batch").html(data)});
 		})
 		});
 	</script>
@@ -1108,10 +1084,10 @@ function syllabusupdate($g,$b,$c,$d,$e) //this function is allow to update the s
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
 			$("#level").click(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=syllabusupdate',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s11:$("#sem").val()},function(data){$("#batch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=syllabusupdate',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s11:$("#sem").val()},function(data){$("#batch").html(data)});
 		})
 $("#level").blur(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=syllabusupdate',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s11:$("#sem").val()},function(data){$("#batch").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=syllabusupdate',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val(),s11:$("#sem").val()},function(data){$("#batch").html(data)});
 		})
 		});
 	</script>
@@ -1255,14 +1231,14 @@ $(document).tooltip();
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=viewtopic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#subjj").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=viewtopic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#subjj").html(data)});
 		})
 $("#level").blur(function(){
 				var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=viewtopic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#subjj").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=viewtopic',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s1:$("#sem").val(),s7:$("#level").val()},function(data){$("#subjj").html(data)});
 		})
 		});
 	</script>
@@ -1659,14 +1635,14 @@ function addsyllabus($g,$b,$c,$d,$e) //this function allow to add syllabus
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=level',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s2:$("#cou").val(),s3:$("#level").val()},function(data){$("#branche").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=level',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s2:$("#cou").val(),s3:$("#level").val()},function(data){$("#branche").html(data)});
 		})
 $("#level").blur(function(){
 				var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=level',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s2:$("#cou").val(),s3:$("#level").val()},function(data){$("#branche").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=level',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s2:$("#cou").val(),s3:$("#level").val()},function(data){$("#branche").html(data)});
 		})
 		$("#la").click(function(){
 		var va=$("#la").val();
@@ -1807,35 +1783,33 @@ echo "<tr><td>Course</td><td><div id='branche'><select name='s4'><option>".$_POS
 					</tr>
 					<tr>
 						<td>Semester</td><td><select name="t1" title="Select the semester"><option>1st</option><option>2nd</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option></select></td>
-					</tr>
-					<tr>
+						</tr>
+										<tr>
 						<td>Subject(full name)</td><td><input type="text" title="Eneter subject name" name="t2" placeholder="Subject(full name)" required></td>
-					</tr>
+						</tr>
 																<tr>
 						<td>Subject(Short name)</td><td><input type="text" title ="Subject short name " name="t4" placeholder="short name" required></td>
-					</tr> 
+						</tr> 
 
-					<tr>
+										<tr>
 						<td>Subject Code</td><td><input type="text" name="t3" title="enter the subject code" placeholder="Char" required maxlength=5 style='width:100px'><input type="text" name="tt3" placeholder="Numeric" required style='width:100px'></td>
-					</tr>
-					<tr>
-						<td>Subject Type</td><td><select name="s3" title="enter subject type"><option value="Theory">Theory</option><option value="Practical">Practical</option></select></td>
-						<tr><td>LoadAllocation(Lecture,Tutorials,Paritical)</td><td><input title="Assign load Allocation" type="text" name="t17" style='width:20px'><input type="text" name="t18" style='width:20px'><input type="text" name="t19" style='width:20px'></td>
 						</tr>
-					</tr>
-					<tr>
+										<tr>
+						<td>Subject Type</td><td><select name="s3" title="enter subject type"><option value="theory">Theory</option><option value="paritical">paritical</option></select></td>
+						<tr><td>LoadAllocation(Leacture,Theory,Paritical)</td><td><input title="Assign load Allocation" type="text" name="t17" style='width:20px'><input type="text" name="t18" style='width:20px'><input type="text" name="t19" style='width:20px'></td>
+						</tr>
+						</tr>
+										<tr>
 						<td>Marks Distribution(internal,external)</td><td><input title="Marks Distribution" type="text" name="t21" style='width:40px' placeholder="internal" required><input type="text" name="t22" style='width:40px' placeholder="external" required></td>
-					</tr>
-					<tr>
+						</tr>
+																<tr>
 						<td>Total Marks</td><td><input type="text" name="t23" placeholder="Total Marks"  required></td>
-					</tr>
+						</tr>
 
-					<tr>
+										<tr>
 						<td>Credits</td><td><input title="Assign the credits" type="text" name="t24" style='width:40px' placeholder="Credits"></td>
-					</tr>
-					<tr>
-						<td>Select Objective layout</td><td><select name='ob' id="la"><option>Select Layout</option><option>Paragraph</option><option>List</option></select></td>
-					</tr>
+						</tr>
+						<tr><td>Select Objective layout</td><td><select name='ob' id="la"><option>Select Layout</option><option>Paragraph</option><option>List</option></select></td></tr>
 <tr id="para"><td>Objectives</td><td><textarea name='t25' rows=10 cols=50 ></textarea></td></tr>
 <tr id="list"><td>Objectives</td><td><input type="text" name="tt0"><input type="button" value="Add More" id="adm"><input type="hidden" name="ob1" id="ob1"></td></tr>
 </table><table id="admo" width="100%"></table><table>
@@ -1857,10 +1831,10 @@ function Download($g,$dbname,$dbuser,$dbpass,$dbhost) //this function is allow t
 				var dbpassword="<?php echo $dbpass; ?>";
 				var dbhost="<?php echo $dbhost; ?>";
 			$("#batch").click(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 		$("#batch").blur(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 		$("#a1").click(function(){
 			$("#semu").hide();
@@ -2001,10 +1975,10 @@ else
 				var dbhost="<?php echo $e; ?>";
 
 			$("#batch").click(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 		$("#batch").blur(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 		$("#a1").click(function(){
 			$("#semu").hide();
@@ -2020,14 +1994,14 @@ else
 			$("#semu").show();
 			})
 			$("#semu").click(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),v:t},function(data){$("#subject").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),v:t},function(data){$("#subject").html(data)});
 				})
 							$("#semu").blur(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),v:t},function(data){$("#subject").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),v:t},function(data){$("#subject").html(data)});
 				})
 
 				$("#ADD").click(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=addpartical',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),s10:$("#sujj").val(),t1:$("#pn").val(),t2:$("#st").val(),id:<?php echo $g; ?>,obj:$("#obj").val(),v:t},function(data){$("#result").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=addpartical',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),s10:$("#sujj").val(),t1:$("#pn").val(),t2:$("#st").val(),id:<?php echo $g; ?>,obj:$("#obj").val(),v:t},function(data){$("#result").html(data)});
 					})
 					$("#addm").click(function(){
 							t++;
@@ -2091,10 +2065,10 @@ $(document).tooltip();
 				var dbhost="<?php echo $e; ?>";
 
 			$("#batch").click(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 					$("#batch").blur(function(){
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=sem',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val()},function(data){$("#semu").html(data)});
 		})
 		$("#a1").click(function(){
 			$("#semu").hide();
@@ -2111,14 +2085,14 @@ $(document).tooltip();
 			$("#semu").show();
 			})
 			$("#semu").click(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val()},function(data){$("#subject").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val()},function(data){$("#subject").html(data)});
 				})
 							$("#semu").blur(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val()},function(data){$("#subject").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=subject',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val()},function(data){$("#subject").html(data)});
 				})
 
 				$("#AvDD").click(function(){
-			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=particaly',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),s10:$("#sujj").val(),t1:$("#pn").val(),t2:$("#st").val(),id:<?php echo $g; ?>,obj:$("#obj").val()},function(data){$("#resultt").html(data)});
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=particaly',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#branchee").val(),s6:$("#level").val(),s8:$("#batch").val(),s9:$("#semo").val(),s10:$("#sujj").val(),t1:$("#pn").val(),t2:$("#st").val(),id:<?php echo $g; ?>,obj:$("#obj").val()},function(data){$("#resultt").html(data)});
 					})
 		});
 	</script>
@@ -2165,10 +2139,10 @@ if(isset($_POST['del']))
 {
 	if(strlen($_POST['del'])>1)
 	{
-	$qry3="delete from `".$wpdb->prefix."paritical` where id='".$_POST['r']."'";
+			$qry3="delete from `".$wpdb->prefix."paritical` where id='".$_POST['r']."'";
 	$res=mysql_query($qry);
 	ok("Paritical Is deleted");
-	}
+}
 }
 }
 function aupu($g)
@@ -2237,21 +2211,21 @@ function advanceser($g,$b,$c,$d,$e)
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
 		})
 		$("#level").blur(function(){
 				var dbname="<?php echo $b; ?>";
 				var dbuser="<?php echo $c; ?>";
 				var dbpassword="<?php echo $d; ?>";
 				var dbhost="<?php echo $e; ?>";				
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/require/demo1.php?mode=referbooks',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$("#cou").val(),s4:$("#level").val(),s6:$("#branchee").val()},function(data){$("#sub").html(data)});
 		})
 		$('#authe').click(function(){
 var dbname='<?php echo $b; ?>';
 var dbuser='<?php echo $c; ?>';
 var dbpassword='<?php echo $d; ?>';
 var dbhost='<?php echo $e; ?>';
-$.post('<?php echo home_url();?>//wp-content/plugins/addpage/demo1.php?mode=referbookau',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$('#authe').val()},function(data){$('#autho').html(data)});
+$.post('<?php echo home_url();?>//wp-content/plugins/addpage/require/demo1.php?mode=referbookau',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,s5:$('#authe').val()},function(data){$('#autho').html(data)});
 
 			})
 		});
