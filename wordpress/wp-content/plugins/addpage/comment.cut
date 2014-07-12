@@ -1,0 +1,4 @@
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\lhead{\bfseries Punjab Technical University}
+\pagestyle{fancy}
