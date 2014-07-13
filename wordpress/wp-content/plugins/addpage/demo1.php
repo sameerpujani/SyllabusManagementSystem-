@@ -7,25 +7,24 @@ function ok()
 $con=mysql_connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpassword']);
 mysql_select_db($_POST['dbname'],$con);
 $wpdb = $_POST['wpdb'];
-/*
-if(isset($_POST['s1']))
-{
-echo $POST['s1'];
-echo $qry="select * from ".$_POST['wpdb']."branches where name='".$_POST['s1']."'";
-$re=mysql_query($qry);
-echo "<table width=100% style='background:none'>";
-$i=1;
-echo "<input type='hidden' name='row' value='".mysql_num_rows($re)."'>";
-while($data=mysql_fetch_array($re))
-{
-	$f='hello'.$i;
-echo "<tr><td><input type='checkbox' name='".$f."' value='".$data['subbranch']."'><td>".$data['subbranch']."</td></tr>";
-$i++;
-}
-echo "</table>";
-}
-*/
 
+
+//Add User - Level -> Branch
+if(isset($_POST['course_level']))
+{
+$current_user = $_POST['current_user'];
+
+$qry = "SELECT `".$wpdb."selectedbranch`.`id`, `".$wpdb."branches`.`subbranch` FROM `".$wpdb."selectedbranch`, `".$wpdb."branches` WHERE `".$wpdb."selectedbranch`.`userid`='".$current_user."' AND `".$wpdb."selectedbranch`.`level`='".$_POST['course_level']."' AND `".$wpdb."selectedbranch`.`branch`=`".$wpdb."branches`.`id`  ";
+$select_branch = mysql_query($qry);
+echo "<select name='branch_id'><option value=''></option>";
+while($branch = mysql_fetch_array($select_branch))
+{
+ echo "<option value='".$branch['id']."'>".$branch['subbranch']."</option>";
+}
+echo "</select>";
+}
+
+//Make Syllabus - Add Courses By University Admin
 if(isset($_POST['s1']))
 { 
 $qry="SELECT * FROM `".$wpdb."branches` WHERE `name`='".$_POST['s1']."'";

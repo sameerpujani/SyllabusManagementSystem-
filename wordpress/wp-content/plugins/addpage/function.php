@@ -1,8 +1,3 @@
-<script>
-$(document).ready(function(){
-alert("GGdddddddddGGGGGGGGG");
-});
-</script>
 <?php
 global $wpdb;
 function about() //this function used for admin side .this plugin show all instruction to admin.
@@ -19,8 +14,36 @@ echo "<li>now this plugin is ready  for users</li>";
 	echo "</ol>";
 	}
 
-function adduser()
-{ $title = __('Add New User'); 
+function adduser($g,$b,$c,$d,$e)
+{
+global $wpdb;
+?>
+	<script>
+	$(document).ready(function(){
+$(document).tooltip();
+			$("#course_level").click(function(){
+		var dbname="<?php echo $b; ?>";
+				var dbuser="<?php echo $c; ?>";
+				var dbpassword="<?php echo $d; ?>";
+				var dbhost="<?php echo $e; ?>";
+				var wpdb = "<?php echo $wpdb->prefix; ?>";
+				var current_user = "<?php echo $g ?>";
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
+		});
+		$("#course_level").blur(function(){
+		var dbname="<?php echo $b; ?>";
+				var dbuser="<?php echo $c; ?>";
+				var dbpassword="<?php echo $d; ?>";
+				var dbhost="<?php echo $e; ?>";
+				var wpdb = "<?php echo $wpdb->prefix; ?>";
+				var current_user = "<?php echo $g ?>";
+		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
+		});
+		});
+	</script>
+
+<?php
+ $title = __('Add New User'); 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
  $timestamp = date('Y-m-d H:i:s');
@@ -38,7 +61,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <tr><th>Password*</th><td><input required type="password" name="password" autocomplete="off" /></td></tr>
 <tr><th>Repeat Password*</th><td><input required type="password" name="repeat_password"  autocomplete="off" /></td></tr>
 <tr><th>Send Password?</th><td><input type="checkbox" name="website" > &nbsp;&nbsp;&nbsp;Send this password to the new user by email.</td></tr>
-<tr><th>Department</th><td><select><option></option></select></td></tr>
+<tr><th>Course Level</th><td><select name='course_level' id='course_level'><option value=''></option>
+<?php
+$qry_course = mysql_query("SELECT DISTINCT(`level`)  FROM `".$wpdb->prefix."selectedbranch` WHERE `userid`='".$g."' ORDER BY `level` ASC  ");
+while($course_level = mysql_fetch_array($qry_course))
+{
+echo "<option value='".$course_level['level']."'>".$course_level['level']."</option>";
+}
+?></select></td></tr>
+<tr><th>Branches Assign </th><td><div id='branches_assign'></div></td></tr> <!--<select><option value=''></option></select>-->
 <tr><td></td><td><input type="submit" name="submit" class="button button-primary button-large" value="Add New User" ></td></tr>
 </table>
 
@@ -338,7 +369,7 @@ echo "</table></td></tr></table><br/>";
 <?php
 $qry="SELECT * FROM `".$wpdb->prefix."branches` WHERE `name`='".$_POST['s1']."'";
 $re=mysql_query($qry);
-$row=mysql_num_rows($re);
+$_SESSION['row'] = $row=mysql_num_rows($re);
 $j=1;
 
 if(isset($_POST['add1']))
@@ -372,8 +403,8 @@ alert("n");
 		$qry2="INSERT INTO `".$wpdb->prefix."selectedbranch` VALUES('".$g."', '', '".$_POST['r1']."', '".$select_id['id']."', '0')";
 		$resu=mysql_query($qry2);
 		$qry_count = mysql_affected_rows();
-		echo $count_insert;
-		echo $count_insert += $qry_count;
+		$count_insert;
+		$count_insert += $qry_count;
 		} 
 	}
 }
@@ -385,7 +416,8 @@ else{
 }
 if(isset($_POST['remove']))
 {
-for($k=1;$k<=$row;$k++)
+echo "vgfd";
+for($k=1;$k<=$_SESSION['row'];$k++)
 {
 	if(isset($_POST['delete'.$k]))
 	{
@@ -402,8 +434,8 @@ $l=1;
 		echo "<table width=100% style='background:none'>";
 		while($data2=mysql_fetch_assoc($resu1))
 		{
-echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['subbranch']."</td></tr>";
-		$l++;
+		echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['subbranch']."</td></tr>";
+		echo $l++;
 		}
 		echo "</table>";
 
@@ -417,6 +449,8 @@ echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><
 </table>
 <h1>YOUR ALL BRANCHES</h1>
 <?php	
+$l = 1;
+echo $_SESSION['var'] = 'ggg';
 
 	$qry3="SELECT * FROM `".$wpdb->prefix."selectedbranch` WHERE `userid`='".$g."'  ORDER BY `".$wpdb->prefix."selectedbranch`.`id` DESC  ";
 		$resu1=mysql_query($qry3) or mysql_error('ERROR : '.die());

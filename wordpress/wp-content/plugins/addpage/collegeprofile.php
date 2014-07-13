@@ -250,7 +250,7 @@ about();
 break;
 
 case "adduser":
-adduser();
+adduser($current_user->ID,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST);
 break;
 
 case "college":
