@@ -147,7 +147,7 @@ else
 //	$result1=mysql_query($qry1) or die('ERROR : '.mysql_error());
 
 //USER IS EDITOR
-	$insert_users = mysql_query("INSERT INTO `".$wpdb->prefix."users` VALUES('0', '".$_POST['username']."', '".md5($password)."', '".$_POST['username']."', '".$_POST['t4']."', '".$_POST['url']."', '".$timestamp."', '', '', '".$_POST['first_name']." ".$_POST['last_name']."') ");
+	$insert_users = mysql_query("INSERT INTO `".$wpdb->prefix."users` VALUES('0', '".$_POST['username']."', '".MD5($password)."', '".$_POST['username']."', '".$_POST['t4']."', '".$_POST['url']."', '".$timestamp."', '', '', '".$_POST['first_name']." ".$_POST['last_name']."') ");
 	$select_qry = mysql_query("SELECT `ID` FROM `".$wpdb->prefix."users` WHERE `user_email`='".$_POST['t4']."' ");
 	$select_id = mysql_fetch_array($select_qry);
 	$user_id = $select_id['ID'];

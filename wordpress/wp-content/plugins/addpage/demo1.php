@@ -14,12 +14,12 @@ if(isset($_POST['course_level']))
 {
 $current_user = $_POST['current_user'];
 
-$qry = "SELECT `".$wpdb."selectedbranch`.`id`, `".$wpdb."branches`.`subbranch` FROM `".$wpdb."selectedbranch`, `".$wpdb."branches` WHERE `".$wpdb."selectedbranch`.`userid`='".$current_user."' AND `".$wpdb."selectedbranch`.`level`='".$_POST['course_level']."' AND `".$wpdb."selectedbranch`.`branch`=`".$wpdb."branches`.`id`  ";
+$qry = "SELECT `".$wpdb."selectedbranch`.`branch`, `".$wpdb."branches`.`subbranch` FROM `".$wpdb."selectedbranch`, `".$wpdb."branches` WHERE `".$wpdb."selectedbranch`.`userid`='".$current_user."' AND `".$wpdb."selectedbranch`.`level`='".$_POST['course_level']."' AND `".$wpdb."selectedbranch`.`branch`=`".$wpdb."branches`.`id`  ";
 $select_branch = mysql_query($qry);
 echo "<select name='branch_id'><option value=''></option>";
 while($branch = mysql_fetch_array($select_branch))
 {
- echo "<option value='".$branch['id']."'>".$branch['subbranch']."</option>";
+ echo "<option value='".$branch['branch']."'>".$branch['subbranch']."</option>";
 }
 echo "</select>";
 }

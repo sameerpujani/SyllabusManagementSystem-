@@ -44,10 +44,45 @@ $(document).tooltip();
 
 <?php
  $title = __('Add New User'); 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+if(isset($_POST['add_user']))
 {
- $timestamp = date('Y-m-d H:i:s');
- $insert = mysql_query("INSERT INTO `".$wpdb->prefix."users` VALUES('0', '".$_POST['username']."', '".MD5($_POST['password'])."', '".$_POST['username']."', '".$_POST['email']."', '".$_POST['website']."', '".$timestamp."', '', '', '".$_POST['first_name']." ".$_POST['last_name']."') ");
+//	if($_SERVER["REQUEST_METHOD"] == "POST")
+//	{
+	/* Check If User Already Exists */
+		$sql_users = mysql_query("SELECT `user_login`, `user_email` FROM `".$wpdb->prefix."users` WHERE `user_login`='".$_POST['username']."' AND `user_email`='".$_POST['email']."'  ");
+		$check = mysql_fetch_array($sql_users);
+		if($check['user_login'] == $_POST['username'] || $check['user_email'] == $_POST['email'])
+		{
+			error("Sorry! Already Exist.");
+		}
+		else
+		{
+		/* INSERT INTO USERS - Add New Contributor Users who Insert the data */
+			echo $password = random();
+			$timestamp = date('Y-m-d H:i:s');
+			$insert = mysql_query("INSERT INTO `".$wpdb->prefix."users` VALUES('0', '".$_POST['username']."', '".MD5($password)."', '".$_POST['username']."', '".$_POST['email']."', '".$_POST['website']."', '".$timestamp."', '', '', '".$_POST['first_name']." ".$_POST['last_name']."') ");
+
+		/* FETCH ID FROM USERS - for allot users to any Course */
+			$sql_users = mysql_query("SELECT `ID` FROM `".$wpdb->prefix."users` WHERE `user_login`='".$_POST['username']."' AND `user_email`='".$_POST['email']."' ");
+			$new_users_id = mysql_fetch_array($sql_users);
+
+		/* FETCH id FROM SELECTEDBRANCH - that is assign to Contributor (user) */
+			$sql_selectedbranch = mysql_query("SELECT `id` FROM `".$wpdb->prefix."selectedbranch` WHERE `level`='".$_POST['course_level']."' AND `branch`='".$_POST['branch_id']."' AND `userid`='".$g."'   ");
+			$selectedbranch_id = mysql_fetch_array($sql_selectedbranch);
+
+		/* INSERT INTO USERMETA - Add desription of New User */
+			$array_meta_key = array('first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'wp_capabilities', 'wp_user_level', 'dismissed_wp_pointers' );
+			$array_meta_value = array($_POST['first_name'], $_POST['last_name'], $_POST['username'], '', 'true', 'false', 'fresh', '0', 'true', 'a:1:{s:10:"subscriber";b:1;}', '0', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets' );
+
+			for($g = 0 ; $g <= 11 ; $g++)
+			{
+			$insert_usermeta = mysql_query("INSERT INTO `".$wpdb->prefix."usermeta` VALUES('0', '".$new_users_id['ID']."', '".$array_meta_key[$g]."', '".$array_meta_value[$g]."')   "); 
+			}
+
+		/* INSERT INTO BRANCHUSERS - Assign Courses to Contributor  */
+			$insert_branch_users = mysql_query("INSERT INTO `".$wpdb->prefix."branch_users` VALUES('0', '".$new_users_id['ID']."', '".$g."', '".$selectedbranch_id['id']."')  ");
+		}
+//	}
 }
 ?>
 
@@ -58,8 +93,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <tr><th>First Name</th><td><input type="text" name="first_name" /></td></tr>
 <tr><th>Last Name</th><td><input type="text" name="last_name" /></td></tr>
 <tr><th>Website</th><td><input type="text" name="website" /></td></tr>
-<tr><th>Password*</th><td><input required type="password" name="password" autocomplete="off" /></td></tr>
-<tr><th>Repeat Password*</th><td><input required type="password" name="repeat_password"  autocomplete="off" /></td></tr>
+<!--<tr><th>Password*</th><td><input required type="password" name="password" autocomplete="off" /></td></tr>
+<tr><th>Repeat Password*</th><td><input required type="password" name="repeat_password"  autocomplete="off" /></td></tr>-->
 <tr><th>Send Password?</th><td><input type="checkbox" name="website" > &nbsp;&nbsp;&nbsp;Send this password to the new user by email.</td></tr>
 <tr><th>Course Level</th><td><select name='course_level' id='course_level'><option value=''></option>
 <?php
@@ -69,8 +104,8 @@ while($course_level = mysql_fetch_array($qry_course))
 echo "<option value='".$course_level['level']."'>".$course_level['level']."</option>";
 }
 ?></select></td></tr>
-<tr><th>Branches Assign </th><td><div id='branches_assign'></div></td></tr> <!--<select><option value=''></option></select>-->
-<tr><td></td><td><input type="submit" name="submit" class="button button-primary button-large" value="Add New User" ></td></tr>
+<tr><th>Branches Assign </th><td><div id='branches_assign'><select><option value=''></option></select></div></td></tr> 
+<tr><td></td><td><input type="submit" name="add_user" class="button button-primary button-large" value="Add New User" ></td></tr>
 </table>
 
 </form>
@@ -450,14 +485,14 @@ $l=1;
 <h1>YOUR ALL BRANCHES</h1>
 <?php	
 $l = 1;
-echo $_SESSION['var'] = 'ggg';
+//echo $_SESSION['var'] = 'ggg';
 
-	$qry3="SELECT * FROM `".$wpdb->prefix."selectedbranch` WHERE `userid`='".$g."'  ORDER BY `".$wpdb->prefix."selectedbranch`.`id` DESC  ";
+	$qry3="SELECT `".$wpdb->prefix."selectedbranch`.`id`, `".$wpdb->prefix."selectedbranch`.`level`, `".$wpdb->prefix."branches`.`subbranch` FROM `".$wpdb->prefix."selectedbranch`, `".$wpdb->prefix."branches` WHERE `".$wpdb->prefix."selectedbranch`.`userid`='".$g."' AND `".$wpdb->prefix."selectedbranch`.`branch` = `".$wpdb->prefix."branches`.`id`  ORDER BY `".$wpdb->prefix."selectedbranch`.`level` ASC  ";
 		$resu1=mysql_query($qry3) or mysql_error('ERROR : '.die());
 		echo "<table width=100%  class='widefat'>";
 		while($data2=mysql_fetch_assoc($resu1))
 		{
-echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['branch']."</td><td>".$data2['id']."</td></tr>";
+echo "<tr><td><input type='checkbox' name='".$f.$l."' value='".$data2['id']."'><td>".$data2['level']."</td><td>".$data2['subbranch']."</td></tr>";
 		$l++;
 		}
 		echo "</table>";
