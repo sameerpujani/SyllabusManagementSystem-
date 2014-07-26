@@ -20,26 +20,26 @@ global $wpdb;
 ?>
 	<script>
 	$(document).ready(function(){
-$(document).tooltip();
-			$("#course_level").click(function(){
-		var dbname="<?php echo $b; ?>";
-				var dbuser="<?php echo $c; ?>";
-				var dbpassword="<?php echo $d; ?>";
-				var dbhost="<?php echo $e; ?>";
-				var wpdb = "<?php echo $wpdb->prefix; ?>";
-				var current_user = "<?php echo $g ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
+	$(document).tooltip();
+		$("#course_level").click(function(){
+			var current_user = "<?php echo $g ?>";
+			var dbname="<?php echo $b; ?>";
+			var dbuser="<?php echo $c; ?>";
+			var dbpassword="<?php echo $d; ?>";
+			var dbhost="<?php echo $e; ?>";
+			var wpdb = "<?php echo $wpdb->prefix; ?>";
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
 		});
 		$("#course_level").blur(function(){
-		var dbname="<?php echo $b; ?>";
-				var dbuser="<?php echo $c; ?>";
-				var dbpassword="<?php echo $d; ?>";
-				var dbhost="<?php echo $e; ?>";
-				var wpdb = "<?php echo $wpdb->prefix; ?>";
-				var current_user = "<?php echo $g ?>";
-		$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
+			var dbname="<?php echo $b; ?>";
+			var dbuser="<?php echo $c; ?>";
+			var dbpassword="<?php echo $d; ?>";
+			var dbhost="<?php echo $e; ?>";
+			var wpdb = "<?php echo $wpdb->prefix; ?>";
+			var current_user = "<?php echo $g ?>";
+			$.post('<?php echo home_url();?>/wp-content/plugins/addpage/demo1.php',{dbname:dbname,dbuser:dbuser,dbpassword:dbpassword,dbhost:dbhost,course_level:$("#course_level").val(),wpdb:wpdb,current_user:current_user},function(data){$("#branches_assign").html(data)});
 		});
-		});
+	});
 	</script>
 
 <?php
@@ -74,9 +74,9 @@ if(isset($_POST['add_user']))
 			$array_meta_key = array('first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'wp_capabilities', 'wp_user_level', 'dismissed_wp_pointers' );
 			$array_meta_value = array($_POST['first_name'], $_POST['last_name'], $_POST['username'], '', 'true', 'false', 'fresh', '0', 'true', 'a:1:{s:10:"subscriber";b:1;}', '0', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets' );
 
-			for($g = 0 ; $g <= 11 ; $g++)
+			for($index = 0 ; $index <= 11 ; $index++)
 			{
-			$insert_usermeta = mysql_query("INSERT INTO `".$wpdb->prefix."usermeta` VALUES('0', '".$new_users_id['ID']."', '".$array_meta_key[$g]."', '".$array_meta_value[$g]."')   "); 
+			$insert_usermeta = mysql_query("INSERT INTO `".$wpdb->prefix."usermeta` VALUES('0', '".$new_users_id['ID']."', '".$array_meta_key[$index]."', '".$array_meta_value[$index]."')   "); 
 			}
 
 		/* INSERT INTO BRANCHUSERS - Assign Courses to Contributor  */
@@ -104,12 +104,141 @@ while($course_level = mysql_fetch_array($qry_course))
 echo "<option value='".$course_level['level']."'>".$course_level['level']."</option>";
 }
 ?></select></td></tr>
-<tr><th>Branches Assign </th><td><div id='branches_assign'><select><option value=''></option></select></div></td></tr> 
+<tr><th>Branch</th><td><div id='branches_assign'><select><option value=''></option></select></div></td></tr> 
 <tr><td></td><td><input type="submit" name="add_user" class="button button-primary button-large" value="Add New User" ></td></tr>
 </table>
 
 </form>
 
+<?php
+}
+
+function assigncourses($g,$b,$c,$d,$e)
+{
+	global $wpdb;
+?>
+	<script>
+
+	$(document).ready(function() {	
+		$(document).tooltip();
+		
+		$("#userID").click(function() {
+			var current_user = "<?php echo $g; ?>";
+			var dbname = "<?php echo $b; ?>";
+			var dbuser = "<?php echo $c; ?>";
+			var dbpassword = "<?php echo $d; ?>";
+			var dbhost = "<?php echo $e ?>";
+			var wpdb = "<?php echo $wpdb->prefix; ?>";
+			$.post( '<?php echo home_url(); ?>/wp-content/plugins/addpage/demo1.php', {current_user:current_user, dbname:dbname, dbuser:dbuser, dbpassword:dbpassword, dbhost:dbhost, wpdb:wpdb, userID:$("#userID").val()}, function(data){$("#already_assign").html(data)} );
+		});
+		$("#userID").blur(function() {
+			var current_user = "<?php echo $g; ?>";
+	                var dbname = "<?php echo $b; ?>";
+			var dbuser = "<?php echo $c; ?>";
+	                var dbpassword = "<?php echo $d; ?>";
+	                var dbhost = "<?php echo $e ?>";
+	                var wpdb = "<?php echo $wpdb->prefix; ?>";
+	                $.post( '<?php echo home_url(); ?>/wp-content/plugins/addpage/demo1.php', {current_user:current_user, dbname:dbname, dbuser:dbuser, dbpassword:dbpassword, dbhost:dbhost, wpdb:wpdb, userID:$("#userID").val()}, function(data){$("#already_assign").html(data)} );
+	        });
+		$("#course_levelAs").click(function() {
+			var current_user = "<?php echo $g; ?>";
+			var dbname = "<?php echo $b; ?>";
+			var dbuser = "<?php echo $c; ?>";
+			var dbpassword = "<?php echo $d; ?>";
+			var dbhost = "<?php echo $e ?>";
+			var wpdb = "<?php echo $wpdb->prefix; ?>";
+			$.post( '<?php echo home_url(); ?>/wp-content/plugins/addpage/demo1.php', {current_user:current_user, dbname:dbname, dbuser:dbuser, dbpassword:dbpassword, dbhost:dbhost, wpdb:wpdb, course_levelAs:$("#course_levelAs").val()}, function(data){$("#branch").html(data)} );
+		});
+                $("#course_levelAs").blur(function() {
+                        var current_user = "<?php echo $g; ?>";
+                        var dbname = "<?php echo $b; ?>";
+                        var dbuser = "<?php echo $c; ?>";
+                        var dbpassword = "<?php echo $d; ?>";
+                        var dbhost = "<?php echo $e ?>";
+                        var wpdb = "<?php echo $wpdb->prefix; ?>";
+                        $.post( '<?php echo home_url(); ?>/wp-content/plugins/addpage/demo1.php', {current_user:current_user, dbname:dbname, dbuser:dbuser, dbpassword:dbpassword, dbhost:dbhost, wpdb:wpdb, course_levelAs:$("#course_levelAs").val()}, function(data){$("#branch").html(data)} );
+              });
+	
+});
+	</script>
+<?php
+	if(isset($_POST['add_user']))
+	{
+		for($i=1 ; $i<=$_POST['row'] ; $i++)
+		{
+			if($_POST['branchId'.$i] > 0)
+			{
+		echo "<script> alert('ig'); </script>";
+		$insert_branch_users = mysql_query("INSERT INTO `".$wpdb->prefix."branch_users` VALUES ('0', '".$_POST['userID']."', '".$g."', '".$_POST['branchId'.$i]."')  ");
+			}
+		}
+	}
+
+	if(isset($_POST['delete_assigned']))
+	{
+		$delete = 1;
+		echo "<script>
+			var val = ".$_POST['total'].";
+
+			alert(val); </script>";
+
+		while($delete <= $_POST['total'])
+		{
+			/*echo "<!--<script> //function confirm_del()
+		//{
+			var del = confirm('Do you really want to delete?');
+			var ok;
+			if(del == true)
+			{
+		
+			}
+
+		//}
+			 </script>-->";*/
+
+			if(isset($_POST['delete'.$delete]))		
+			{
+				$delete_assigned = mysql_query("DELETE FROM `".$wpdb->prefix."branch_users` WHERE `id`='".$_POST['delete'.$delete]."'  ");
+			}
+			$delete++;
+
+		}
+		//echo "<script> alert('g'); </script>";
+	}
+?>
+
+	<form action="admin.php?page=assigncourses" method="post">
+<table align="center" border="0" class="form-table">
+<tr><th>Usename*</th><td><select required name="userID" id='userID' /><option value=''>--- Name (Username) ---</option>
+<?php
+$sql_users = mysql_query("SELECT  DISTINCT(`".$wpdb->prefix."users`.`ID`), `".$wpdb->prefix."users`.`display_name`, `".$wpdb->prefix."users`.`user_login` FROM `".$wpdb->prefix."users`, `".$wpdb->prefix."branch_users` WHERE `".$wpdb->prefix."branch_users`.`user_id`='".$g."' AND `".$wpdb->prefix."users`.`ID` = `".$wpdb->prefix."branch_users`.`allot_user_id`  ");
+	while($users_name_id = mysql_fetch_array($sql_users))
+	{
+		echo "<option value='".$users_name_id['ID']."'>".$users_name_id['display_name']." (".$users_name_id['user_login'].")</option>";
+	}
+?>
+</select></td></tr>
+<tr><th>Course Level*</th><td><select required name='course_levelAs' id='course_levelAs'><option value=''></option>
+<?php
+$sql_selectedbranches = mysql_query("SELECT DISTINCT(`level`) FROM `".$wpdb->prefix."selectedbranch` WHERE `userid` ='".$g."' ORDER BY `level` ASC ");
+while($level = mysql_fetch_array($sql_selectedbranches))
+{
+ echo "<option value='".$level['level']."'>".$level['level']."</option>";
+}
+?>
+</select></td></tr>
+<tr><th>Assign Branches* </th><td><span id='branch'>Branches</span></td></tr>
+<tr><td></td><td><input type="submit" name="add_user" class="button button-primary button-large" value="Add New User" ></td></tr>
+</table>
+
+	</form>
+	<form action="admin.php?page=assigncourses" method="post">
+<h1>ALREADY ASSIGNED COURSES</h1>
+<?php
+
+?>
+<div id="already_assign"></div>
+	</form>
 <?php
 }
 
@@ -488,7 +617,7 @@ $l = 1;
 //echo $_SESSION['var'] = 'ggg';
 
 	$qry3="SELECT `".$wpdb->prefix."selectedbranch`.`id`, `".$wpdb->prefix."selectedbranch`.`level`, `".$wpdb->prefix."branches`.`subbranch` FROM `".$wpdb->prefix."selectedbranch`, `".$wpdb->prefix."branches` WHERE `".$wpdb->prefix."selectedbranch`.`userid`='".$g."' AND `".$wpdb->prefix."selectedbranch`.`branch` = `".$wpdb->prefix."branches`.`id`  ORDER BY `".$wpdb->prefix."selectedbranch`.`level` ASC  ";
-		$resu1=mysql_query($qry3) or mysql_error('ERROR : '.die());
+		$resu1=mysql_query($qry3) or die('ERROR : '.mysql_error());
 		echo "<table width=100%  class='widefat'>";
 		while($data2=mysql_fetch_assoc($resu1))
 		{
@@ -1909,7 +2038,7 @@ echo "<tr><td>Course</td><td><div id='branche'><select name='s4'><option>".$_POS
 <tr id="list"><td>Objectives</td><td><input type="text" name="tt0"><input type="button" value="Add More" id="adm"><input type="hidden" name="ob1" id="ob1"></td></tr>
 </table><table id="admo" width="100%"></table><table>
 						<tr>
-						<td><input type="submit" value="CREATE" name="create"></td>
+						<td><input type="submit" value="CREATE" name="create" class="button-large button-primary button"></td>
 						</tr>
 						
 			</table>

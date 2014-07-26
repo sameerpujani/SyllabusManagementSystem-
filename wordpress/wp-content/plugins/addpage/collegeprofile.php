@@ -53,11 +53,13 @@ function collegeprofilemenu()
 add_menu_page('CollegeProfile','college_profile','administrator','collegeprofile','collegeprofile','','top-level');
 //add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 add_submenu_page('collegeprofile','collegeprofilemenu','Add University','administrator','collegeprofilemenu','collegeprofile');
-add_submenu_page('collegeprofile', 'Add New User', 'Add User', 'editor', 'adduser', 'collegeprofile');
 add_submenu_page('collegeprofile','college','All Universities','administrator','college','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Update','administrator','update','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Theme','editor','Theme','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Insert Courses','editor','makesyllabus','collegeprofile');
+add_submenu_page('collegeprofile', 'Add New User', 'Add User', 'editor', 'adduser', 'collegeprofile');
+add_submenu_page('collegeprofile', 'Assign Courses', 'Assign Courses', 'editor', 'assigncourses', 'collegeprofile');
+add_submenu_page('collegeprofile','collegeprofilemenu','','editor','addbranch','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Add Syllabus','subscriber','addsyllabus','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Add Author&Publisher','subscriber','aupu','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','Refer Books','subscriber','referbooks','collegeprofile');
@@ -74,7 +76,6 @@ add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','updated'
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','viewstopics','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','actions','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','viewsbooks','collegeprofile');
-add_submenu_page('collegeprofile','collegeprofilemenu','','editor','addbranch','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','','subscriber','advanceser','collegeprofile');
 add_submenu_page('collegeprofile','collegeprofilemenu','TEST','subscriber','test','collegeprofile');
 remove_menu_page('index.php');
@@ -251,6 +252,10 @@ break;
 
 case "adduser":
 adduser($current_user->ID,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST);
+break;
+
+case "assigncourses":
+assigncourses($current_user->ID,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST);
 break;
 
 case "college":
